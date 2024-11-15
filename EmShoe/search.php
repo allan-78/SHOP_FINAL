@@ -17,9 +17,10 @@ $products = getProductsByName($searchQuery);
     <title>Search Results | EM' Quality Shoes</title>
     <link rel="stylesheet" href="layout/css/style.css">
     <style>
+    /* Base styles */
     body {
         font-family: 'Arial', sans-serif;
-        background-color: #f4f4f4;
+        background-color: #f9f9f9;
         margin: 0;
         padding: 0;
     }
@@ -29,26 +30,21 @@ $products = getProductsByName($searchQuery);
         color: #ffffff;
         padding: 20px;
         text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    h1, h2 {
+    header h1, footer p {
+        margin: 0;
+    }
+
+    h2 {
         color: #333;
-        font-weight: bold;
-    }
-
-    main {
-        padding: 40px 15px;
-        background-color: #ffffff;
+        font-weight: 600;
     }
 
     .search-header {
+        margin: 30px 0;
         text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .search-header h2 {
-        color: #007bff;
-        font-size: 2rem;
     }
 
     .search-bar {
@@ -61,16 +57,16 @@ $products = getProductsByName($searchQuery);
         padding: 12px;
         font-size: 1rem;
         border: 2px solid #ccc;
-        border-radius: 25px;
+        border-radius: 50px;
         margin-right: 10px;
-        width: 300px;
+        width: 350px;
         transition: all 0.3s ease;
     }
 
     .search-bar input:focus {
         border-color: #007bff;
         outline: none;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
     }
 
     .search-bar button {
@@ -78,7 +74,7 @@ $products = getProductsByName($searchQuery);
         background-color: #007bff;
         color: white;
         border: none;
-        border-radius: 25px;
+        border-radius: 50px;
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
     }
@@ -88,19 +84,21 @@ $products = getProductsByName($searchQuery);
         transform: scale(1.05);
     }
 
+    /* Grid layout for products */
     .product-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 20px;
         justify-items: center;
-        margin-top: 20px;
+        padding: 0 15px;
+        margin-top: 40px;
     }
 
     .product-item {
         background-color: #ffffff;
         padding: 20px;
         border: 1px solid #ddd;
-        border-radius: 10px;
+        border-radius: 12px;
         width: 100%;
         max-width: 280px;
         text-align: center;
@@ -109,13 +107,14 @@ $products = getProductsByName($searchQuery);
     }
 
     .product-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        transform: translateY(-8px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
 
     .product-item img {
         width: 100%;
-        height: auto;
+        height: 250px;
+        object-fit: cover;
         border-radius: 8px;
         transition: transform 0.3s ease;
     }
@@ -128,7 +127,6 @@ $products = getProductsByName($searchQuery);
         margin: 15px 0;
         font-size: 1.2rem;
         color: #333;
-        font-weight: normal;
     }
 
     .product-item p {
@@ -138,7 +136,7 @@ $products = getProductsByName($searchQuery);
     }
 
     .product-item p.price {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         color: #28a745;
         font-weight: bold;
     }
@@ -159,13 +157,13 @@ $products = getProductsByName($searchQuery);
         transform: scale(1.05);
     }
 
+    /* No results message */
     .no-results {
         text-align: center;
-        color: #333;
+        color: #dc3545;
         font-size: 1.5rem;
         font-weight: bold;
         margin-top: 40px;
-        color: #dc3545;
     }
 
     .no-results p {
@@ -173,14 +171,21 @@ $products = getProductsByName($searchQuery);
         font-size: 1.2rem;
     }
 </style>
-
 </head>
 <body>
+
     <?php include 'templates/header.php'; ?>
 
     <main>
         <section class="search-header">
-            <h2>Search Results for: <?php echo htmlspecialchars($searchQuery); ?></h2>
+            <h2>Search Results for: "<?php echo htmlspecialchars($searchQuery); ?>"</h2>
+        </section>
+
+        <section class="search-bar">
+            <form action="search.php" method="GET">
+                <input type="text" name="search" placeholder="Search for products..." value="<?php echo htmlspecialchars($searchQuery); ?>">
+                <button type="submit">Search</button>
+            </form>
         </section>
 
         <section class="products">

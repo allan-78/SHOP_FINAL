@@ -1,5 +1,6 @@
 <?php
 require_once 'includes/functions/functions.php';
+
 session_start();
 
 // Get filter values from the GET request (if any)
@@ -24,54 +25,74 @@ $categories = getCategories();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products | EM' Quality Shoes</title>
+    <link rel="stylesheet" href="css/style.css">
+
     <style>
         /* General Reset */
-          body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f8f9fa;
         }
+
         header, footer {
             background-color: #343a40;
             color: #ffffff;
             padding: 20px;
             text-align: center;
         }
+
         nav ul {
             list-style: none;
             padding: 0;
         }
+
         nav ul li {
             display: inline;
             margin: 0 10px;
         }
+
         nav ul li a {
             color: #ffffff;
             text-decoration: none;
         }
 
-        /* Filter Form */
-        .filter-form {
-            padding: 30px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            margin: 20px auto;
-            max-width: 1100px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        /* Main Content Layout */
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px;
         }
 
-        .filter-form label {
+        /* Sidebar Filter */
+        .filter-sidebar {
+            width: 250px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-right: 20px;
+        }
+
+        .filter-sidebar h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .filter-sidebar label {
             font-size: 1rem;
             color: #555;
             margin-bottom: 10px;
             display: block;
         }
 
-        .filter-form select,
-        .filter-form input {
+        .filter-sidebar select,
+        .filter-sidebar input {
             width: 100%;
             padding: 12px;
             margin: 8px 0 20px;
@@ -80,7 +101,7 @@ $categories = getCategories();
             font-size: 1rem;
         }
 
-        .filter-form button {
+        .filter-sidebar button {
             background-color: #27ae60;
             color: white;
             padding: 12px 20px;
@@ -88,10 +109,11 @@ $categories = getCategories();
             border-radius: 4px;
             cursor: pointer;
             font-size: 1rem;
+            width: 100%;
             transition: background-color 0.3s ease;
         }
 
-        .filter-form button:hover {
+        .filter-sidebar button:hover {
             background-color: #2ecc71;
         }
 
@@ -101,8 +123,7 @@ $categories = getCategories();
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
             justify-items: center;
-            margin-top: 20px;
-            padding: 0 20px;
+            flex: 1;
         }
 
         .product-item {
@@ -157,27 +178,47 @@ $categories = getCategories();
         }
 
         /* Footer */
-        footer {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            padding: 30px 20px;
-            text-align: center;
-            margin-top: 40px;
-        }
+        .footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 30px;
+}
 
-        footer h3 {
-            margin-bottom: 10px;
-        }
+.footer-content div {
+    width: 30%;
+    padding: 20px;
+    text-align: left;
+}
 
-        footer p {
-            font-size: 1rem;
-        }
+.footer-content h3 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.footer-content p {
+    font-size: 1.1em;
+    color: #ddd;
+}
+
+footer p {
+    margin-top: 30px;
+    font-size: 1em;
+    color: #ccc;
+}
 
         /* Media Queries for Mobile Responsiveness */
         @media (max-width: 768px) {
-            .filter-form {
-                padding: 20px;
-                margin: 20px;
+            .main-content {
+                flex-direction: column;
+            }
+
+            .filter-sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
             }
 
             .product-item {
@@ -185,36 +226,48 @@ $categories = getCategories();
                 margin: 0 auto;
             }
 
-            nav ul {
-                flex-direction: column;
-                padding: 10px 0;
-            }
+            header, footer, nav {
+    background-color: #343a40; /* Same as header background */
+    color: #ffffff; /* White text color */
+    padding: 20px;
+    text-align: center;
+}
 
-            nav ul li {
-                margin: 10px 0;
-            }
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: #ffffff; /* Same text color as header */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #dddddd; /* Slightly lighter color for hover effect */
+}
         }
     </style>
 </head>
 <body>
     <!-- Header Section -->
     <header>
-        <h1>EM' Quality Shoes</h1>
+    <?php include 'templates/header.php'; ?>
     </header>
 
-    <!-- Navigation Bar -->
-    <nav>
-        <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="products.php">Products</a></li>
-            <li><a href="about.php">About</a></li>
-            <li><a href="contact.php">Contact</a></li>
-        </ul>
-    </nav>
-
-    <main>
-        <!-- Filter Form Section -->
-        <section class="filter-form">
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Filter Sidebar -->
+        <aside class="filter-sidebar">
+            <h2>Filter Products</h2>
             <form action="" method="GET">
                 <!-- Gender -->
                 <label for="gender">Gender:</label>
@@ -277,25 +330,22 @@ $categories = getCategories();
 
                 <button type="submit">Apply Filters</button>
             </form>
-        </section>
+        </aside>
 
-        <!-- Display Products -->
-        <section class="section products">
-            <h2>Products</h2>
-            <div class="product-grid">
-                <?php if (!empty($products)): ?>
-                    <?php foreach ($products as $product): ?>
-                        <div class="product-item">
-                            <img src="<?php echo $product['image']; ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
-                            <h3><?php echo htmlspecialchars($product['name']); ?></h3>
-                            <p>$<?php echo number_format($product['price'], 2); ?></p>
-                            <a href="item_details.php?id=<?php echo $product['product_id']; ?>">View Details</a>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>No products found based on your filters.</p>
-                <?php endif; ?>
-            </div>
+        <!-- Product Grid -->
+        <section class="product-grid">
+            <?php if (!empty($products)): ?>
+                <?php foreach ($products as $product): ?>
+                    <div class="product-item">
+                        <img src="<?php echo $product['image']; ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                        <h3><?php echo htmlspecialchars($product['name']); ?></h3>
+                        <p>$<?php echo number_format($product['price'], 2); ?></p>
+                        <a href="item_details.php?id=<?php echo $product['product_id']; ?>">View Details</a>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No products found based on your filters.</p>
+            <?php endif; ?>
         </section>
     </main>
 
@@ -315,6 +365,8 @@ $categories = getCategories();
                 <p>Social media links go here</p>
             </div>
         </div>
+
+        <p>&copy; 2024 EM' Quality Shoes. All rights reserved.</p>
     </footer>
 </body>
 </html>

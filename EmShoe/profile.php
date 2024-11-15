@@ -44,7 +44,6 @@ try {
     <title>User Profile</title>
     <link rel="stylesheet" href="layout/css/style.css">
     <style>
-        /* Add your existing styles here */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f6f9;
@@ -55,19 +54,19 @@ try {
 
         header {
             background-color: #3f51b5;
-            color: #fff;
+            color: white;
             padding: 20px 0;
             text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         header h1 {
+            font-size: 28px;
             margin: 0;
-            font-size: 30px;
-            font-weight: 600;
         }
 
         nav ul {
-            list-style-type: none;
+            list-style: none;
             padding: 0;
             margin: 10px 0;
         }
@@ -78,7 +77,7 @@ try {
         }
 
         nav ul li a {
-            color: #fff;
+            color: white;
             text-decoration: none;
             font-size: 18px;
             font-weight: 500;
@@ -89,46 +88,51 @@ try {
         }
 
         .profile-container {
-            width: 70%;
+            width: 80%;
+            max-width: 900px;
             margin: 40px auto;
             background-color: #fff;
-            padding: 25px;
+            padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
         }
 
         .profile-container h2 {
-            font-size: 30px;
+            font-size: 28px;
             margin-bottom: 20px;
             color: #333;
+            font-weight: 600;
         }
 
-        .profile-container p {
+        .user-info {
+            margin-bottom: 30px;
+        }
+
+        .user-info p {
             font-size: 18px;
-            line-height: 1.6;
             color: #666;
             margin-bottom: 10px;
         }
 
-        .profile-container .user-info {
-            margin-bottom: 30px;
+        .user-info p strong {
+            color: #333;
         }
 
         .profile-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
             gap: 20px;
-            margin-top: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
         }
 
         .profile-buttons a {
             display: block;
-            padding: 15px;
+            padding: 14px 24px;
             background-color: #3f51b5;
             color: white;
             text-decoration: none;
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 16px;
             text-align: center;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -140,16 +144,6 @@ try {
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .footer {
-            background-color: #3f51b5;
-            color: #fff;
-            text-align: center;
-            padding: 15px 0;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-        }
-
         .settings-btn {
             background-color: #f44336;
         }
@@ -157,20 +151,23 @@ try {
         .settings-btn:hover {
             background-color: #d32f2f;
         }
+
+        footer {
+            background-color: #3f51b5;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to EM' Quality Shoes</h1>
-        <nav>
-            <ul>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="products.php">Products</a></li>
-                <li><a href="contact.php">Contact Us</a></li>
-                <li><a href="profile.php">Profile</a></li>
-            </ul>
-        </nav>
-    </header>
+<?php include 'templates/header.php'; ?>
 
     <div class="profile-container">
         <h2>Welcome, <?php echo htmlspecialchars($user['first_name']) . ' ' . htmlspecialchars($user['last_name']); ?>!</h2>
@@ -184,9 +181,6 @@ try {
         <!-- Button to view reviews or order history -->
         <div class="profile-buttons">
             <a href="my_reviews.php">View My Reviews</a>
-        </div>
-
-        <div class="profile-buttons">
             <a href="edit_profile.php">Edit Profile</a>
             <a href="ordered_items.php">Ordered Items</a>
             <a href="order_history.php">Order History</a>
@@ -194,8 +188,9 @@ try {
         </div>
     </div>
 
-    <footer class="footer">
+    <footer>
         <p>&copy; 2024 EM' Quality Shoes. All rights reserved.</p>
     </footer>
+
 </body>
 </html>

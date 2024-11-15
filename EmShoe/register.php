@@ -1,99 +1,3 @@
-<?php
-// Start session
-session_start();
-
-// Database configuration
-$host = 'localhost';  // Adjust for your local settings
-$dbname = 'ShoeShop';  // Your database name
-$username = 'root';    // Your MySQL username (default is 'root')
-$password = '';        // Your MySQL password (default is '')
-
-// Create the PDO connection
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    // Set PDO error mode to exception
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Error connecting to the database: " . $e->getMessage());
-}
-
-// Check if the form was submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Sanitize and assign the form values
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
-    $confirmPassword = trim($_POST['confirm_password']);
-    $email = trim($_POST['email']);
-    $role = isset($_POST['role']) ? $_POST['role'] : ''; // Either 'user' or 'admin'
-    
-    // Additional user-specific fields
-    $first_name = trim($_POST['first_name']);
-    $last_name = trim($_POST['last_name']);
-    $phone = trim($_POST['phone']);
-    $address = trim($_POST['address']);
-
-    // Error handling: Check for missing fields or mismatched passwords
-    if (empty($username) || empty($password) || empty($confirmPassword) || empty($email) || empty($role)) {
-        $_SESSION['message'] = "All fields are required!";
-        header("Location: register.php");
-        exit();
-    }
-
-    if ($password !== $confirmPassword) {
-        $_SESSION['message'] = "Passwords do not match!";
-        header("Location: register.php");
-        exit();
-    }
-
-    // Validate the email
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $_SESSION['message'] = "Invalid email format!";
-        header("Location: register.php");
-        exit();
-    }
-
-    // Hash the password
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-    // Prepare the SQL query for inserting the user
-    try {
-        if ($role === 'admin') {
-            // Insert the user into the admin_users table
-            $sql = "INSERT INTO admin_users (username, password) VALUES (:username, :password)";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([
-                'username' => $username,
-                'password' => $hashedPassword
-            ]);
-        } else {
-            // Insert the user into the users table
-            $sql = "INSERT INTO users (username, password, email, first_name, last_name, phone, address, role) 
-                    VALUES (:username, :password, :email, :first_name, :last_name, :phone, :address, :role)";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([
-                'username' => $username,
-                'password' => $hashedPassword,
-                'email' => $email,
-                'first_name' => $first_name,
-                'last_name' => $last_name,
-                'phone' => $phone,
-                'address' => $address,
-                'role' => $role
-            ]);
-        }
-
-        // Success message
-        $_SESSION['message'] = "Registration successful! Please log in.";
-        header("Location: login.php");
-        exit();
-    } catch (PDOException $e) {
-        $_SESSION['message'] = "Error: " . $e->getMessage();
-        header("Location: register.php");
-        exit();
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -126,7 +30,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header a, footer a {
             color: #fff;
             text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
         }
+
+        /* Hover effect for the header */
+       /* Hover effect for the header */
+        header a:hover {
+             text-decoration: none;
+             color: #FFD700; /* Gold color for text */
+             text-shadow: 0 0 10px rgba(255, 215, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.5); /* Gold glow effect */
+        }
+
 
         /* Register Form Section */
         .register-section {
@@ -216,7 +131,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 
     <header>
-        <h1>EM' Quality Shoes</h1>
+        <!-- Make header text clickable, redirecting to index.php -->
+        <a href="index.php">EM' Quality Shoes</a>
     </header>
 
     <main>
